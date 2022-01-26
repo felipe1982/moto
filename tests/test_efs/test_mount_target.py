@@ -1,6 +1,5 @@
 import re
 import sys
-from os import environ
 from ipaddress import IPv4Network
 
 import boto3
@@ -36,15 +35,6 @@ else:
             raise TypeError(
                 f"Unable to test subnet containment " f"between {a} and {b}"
             )
-
-
-@pytest.fixture(scope="function")
-def aws_credentials():
-    """Mocked AWS Credentials for moto."""
-    environ["AWS_ACCESS_KEY_ID"] = "testing"
-    environ["AWS_SECRET_ACCESS_KEY"] = "testing"
-    environ["AWS_SECURITY_TOKEN"] = "testing"
-    environ["AWS_SESSION_TOKEN"] = "testing"
 
 
 @pytest.fixture(scope="function")

@@ -1,5 +1,4 @@
 import re
-from os import environ
 
 import boto3
 import pytest
@@ -32,15 +31,6 @@ SAMPLE_2_PARAMS = {
 
 
 @pytest.fixture(scope="function")
-def aws_credentials():
-    """Mocked AWS Credentials for moto."""
-    environ["AWS_ACCESS_KEY_ID"] = "testing"
-    environ["AWS_SECRET_ACCESS_KEY"] = "testing"
-    environ["AWS_SECURITY_TOKEN"] = "testing"
-    environ["AWS_SESSION_TOKEN"] = "testing"
-
-
-@pytest.fixture(scope="function")
 def efs(aws_credentials):
     with mock_efs():
         yield boto3.client("efs", region_name="us-east-1")
@@ -68,7 +58,7 @@ def test_create_file_system_correct_use(efs):
     assert create_fs_resp["Tags"][0] == {"Key": "Name", "Value": "Test EFS Container"}
     assert create_fs_resp["ThroughputMode"] == "bursting"
     assert create_fs_resp["PerformanceMode"] == "generalPurpose"
-    assert create_fs_resp["Encrypted"] == False
+    assert not create_fs_resp["Encrypted"]
     assert create_fs_resp["NumberOfMountTargets"] == 0
     for key_name in ["Value", "ValueInIA", "ValueInStandard"]:
         assert key_name in create_fs_resp["SizeInBytes"]

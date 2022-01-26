@@ -1,5 +1,4 @@
 import re
-from os import environ
 
 import pytest
 
@@ -9,15 +8,6 @@ import moto.server as server
 
 FILE_SYSTEMS = "/2015-02-01/file-systems"
 MOUNT_TARGETS = "/2015-02-01/mount-targets"
-
-
-@pytest.fixture(scope="function")
-def aws_credentials():
-    """Mocked AWS Credentials for moto."""
-    environ["AWS_ACCESS_KEY_ID"] = "testing"
-    environ["AWS_SESSION_TOKEN"] = "testing"
-    environ["AWS_SECRET_ACCESS_KEY"] = "testing"
-    environ["AWS_SECURITY_TOKEN"] = "testing"
 
 
 @pytest.fixture(scope="function")
